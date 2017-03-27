@@ -1,10 +1,12 @@
 class Gigasecond {
   constructor(date) {
-    this.beginning = date;
+    this.startDate = date;
+    this.gigasecondInterval = 1e12;
   }
 
   date() {
-    this.date;
+    let endDate = new Date(this.startDate.getTime() + this.gigasecondInterval);
+    return endDate;
   }
 }
 

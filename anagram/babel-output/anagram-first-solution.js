@@ -12,11 +12,37 @@ var Anagram = (function () {
   function Anagram(wordToMatch) {
     _classCallCheck(this, Anagram);
 
-    this.originalWord = wordToMatch.toLowerCase();
-    this.wordToMatch = this.originalWord.split('').sort().join('');
+    this.wordToMatch = wordToMatch.toLowerCase();
+    this.countHash = this.countHashConverter();
   }
 
   _createClass(Anagram, [{
+    key: 'countHashConverter',
+    value: function countHashConverter() {
+      var countHash = {};
+
+      this.wordToMatch.split('').forEach(function (char) {
+        countHash['' + char] ? countHash['' + char]++ : countHash['' + char] = 1;
+      });
+
+      return countHash;
+    }
+  }, {
+    key: 'checkObjEquality',
+    value: function checkObjEquality(obj1, obj2) {
+      if (Object.keys(obj1).length !== Object.keys(obj2).length) {
+        return false;
+      }
+
+      for (var i in obj1) {
+        if (!obj2.hasOwnProperty(i) || obj1[i] !== obj2[i]) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+  }, {
     key: 'matches',
     value: function matches(possibleAnagrams) {
       var _this = this;
@@ -27,11 +53,20 @@ var Anagram = (function () {
 
       var result = [];
 
-      possibleAnagrams.forEach(function (word) {
-        if (word.toLowerCase() === _this.originalWord) {
+      possibleAnagrams.forEach(function (possibleMatch) {
+        if (possibleMatch.toLowerCase() === _this.wordToMatch) {
           return;
-        } else if (word.toLowerCase().split('').sort().join('') === _this.wordToMatch) {
-          result.push(word);
+        }
+
+        var countHashCopy = {};
+
+        for (var i = 0; i < possibleMatch.length; i++) {
+          var lowerCaseChar = possibleMatch[i].toLowerCase();
+          countHashCopy[lowerCaseChar] ? countHashCopy[lowerCaseChar]++ : countHashCopy[lowerCaseChar] = 1;
+        }
+
+        if (_this.checkObjEquality(_this.countHash, countHashCopy)) {
+          result.push(possibleMatch);
         }
       });
 

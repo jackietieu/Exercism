@@ -1,31 +1,7 @@
-class Anagram {
+export default class Anagram {
   constructor(wordToMatch) {
-    this.wordToMatch = wordToMatch.toLowerCase();
-    this.countHash = this.countHashConverter();
-  }
-
-  countHashConverter() {
-    let countHash = {};
-
-    this.wordToMatch.split('').forEach(char => {
-      countHash[`${char}`] ? countHash[`${char}`]++ : countHash[`${char}`] = 1;
-    });
-
-    return countHash;
-  }
-
-  checkObjEquality(obj1, obj2) {
-    if (Object.keys(obj1).length !== Object.keys(obj2).length) {
-      return false;
-    }
-
-    for (let i in obj1) {
-      if (!obj2.hasOwnProperty(i) || obj1[i] !== obj2[i]) {
-        return false;
-      }
-    }
-
-    return true;
+    this.originalWord = wordToMatch.toLowerCase();
+    this.wordToMatch = this.originalWord.split('').sort().join('');
   }
 
   matches(possibleAnagrams) {
@@ -35,25 +11,14 @@ class Anagram {
 
     let result = [];
 
-    possibleAnagrams.forEach(possibleMatch => {
-      if (possibleMatch.toLowerCase() === this.wordToMatch) {
+    possibleAnagrams.forEach(word => {
+      if (word.toLowerCase() === this.originalWord) {
         return;
-      }
-
-      let countHashCopy = {};
-
-      for (let i = 0; i < possibleMatch.length; i++) {
-        let lowerCaseChar = possibleMatch[i].toLowerCase();
-        countHashCopy[lowerCaseChar] ? countHashCopy[lowerCaseChar]++ : countHashCopy[lowerCaseChar] = 1;
-      }
-
-      if (this.checkObjEquality(this.countHash, countHashCopy)) {
-        result.push(possibleMatch);
+      } else if (word.toLowerCase().split('').sort().join('') === this.wordToMatch) {
+        result.push(word);
       }
     });
 
     return result;
   }
 }
-
-export default Anagram;

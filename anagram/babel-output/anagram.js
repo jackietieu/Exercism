@@ -13,10 +13,23 @@ var Anagram = (function () {
     _classCallCheck(this, Anagram);
 
     this.originalWord = wordToMatch.toLowerCase();
-    this.wordToMatch = this.originalWord.split('').sort().join('');
+    this.originalWordVal = this.stringValue(this.originalWord);
+    // this.wordToMatch = this.originalWord.split('').sort().join('');
   }
 
   _createClass(Anagram, [{
+    key: 'stringValue',
+    value: function stringValue(str) {
+      var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101],
+          val = 0;
+
+      str.toLowerCase().split('').forEach(function (char) {
+        val += primes[char.charCodeAt(0) - 97];
+      });
+
+      return val;
+    }
+  }, {
     key: 'matches',
     value: function matches(possibleAnagrams) {
       var _this = this;
@@ -28,9 +41,9 @@ var Anagram = (function () {
       var result = [];
 
       possibleAnagrams.forEach(function (word) {
-        if (word.toLowerCase() === _this.originalWord) {
+        if (_this.originalWord === word.toLowerCase()) {
           return;
-        } else if (word.toLowerCase().split('').sort().join('') === _this.wordToMatch) {
+        } else if (_this.stringValue(word) === _this.originalWordVal) {
           result.push(word);
         }
       });

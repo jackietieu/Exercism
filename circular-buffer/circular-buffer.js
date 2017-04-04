@@ -1,7 +1,8 @@
 export default function circularBuffer(size = 0) {
   let array = new Array(size),
       writeIdx = 0,
-      readIdx = 0;
+      readIdx = 0,
+      elements = 0;
 
   function full() {
     let full = true;
@@ -14,11 +15,13 @@ export default function circularBuffer(size = 0) {
   }
 
   function read() {
-    if (array.every(el => Boolean(el) === false) || !Boolean(array[readIdx % size]) || readIdx >= size) {
+    if (array.every(el => Boolean(el) === false) || !Boolean(array[readIdx % size]) || readIdx >= elements) {
       throw bufferEmptyException();
     } else {
       readIdx++;
-      return array[(readIdx - 1) % size];
+      let result = array[(readIdx - 1) % size];
+      array[(readIdx - 1) % size] = undefined;
+      return result;
     }
   }
 
@@ -26,7 +29,9 @@ export default function circularBuffer(size = 0) {
     if (el && !full()) {
       array[writeIdx % size] = el;
       writeIdx++;
+      elements++;
     } else if (full()) {
+      console.log(array);
       throw bufferFullException();
     }
   }
@@ -35,16 +40,17 @@ export default function circularBuffer(size = 0) {
     array.fill(undefined);
     writeIdx = 0;
     readIdx = 0;
+    elements = 0;
   }
 
   function forceWrite(el) {
     if (!full()) {
       write(el);
     } else {
-      //it's full, overwrite oldest
       array[writeIdx % size] = el;
       writeIdx++;
       readIdx++;
+      elements++;
     }
   }
 

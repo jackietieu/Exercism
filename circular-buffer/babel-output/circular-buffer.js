@@ -12,7 +12,8 @@ function circularBuffer() {
 
   var array = new Array(size),
       writeIdx = 0,
-      readIdx = 0;
+      readIdx = 0,
+      elements = 0;
 
   function full() {
     var full = true;
@@ -27,11 +28,13 @@ function circularBuffer() {
   function read() {
     if (array.every(function (el) {
       return Boolean(el) === false;
-    }) || !Boolean(array[readIdx % size]) || readIdx >= size) {
+    }) || !Boolean(array[readIdx % size]) || readIdx >= elements) {
       throw bufferEmptyException();
     } else {
       readIdx++;
-      return array[(readIdx - 1) % size];
+      var result = array[(readIdx - 1) % size];
+      array[(readIdx - 1) % size] = undefined;
+      return result;
     }
   }
 
@@ -39,7 +42,9 @@ function circularBuffer() {
     if (el && !full()) {
       array[writeIdx % size] = el;
       writeIdx++;
+      elements++;
     } else if (full()) {
+      console.log(array);
       throw bufferFullException();
     }
   }
@@ -48,6 +53,7 @@ function circularBuffer() {
     array.fill(undefined);
     writeIdx = 0;
     readIdx = 0;
+    elements = 0;
   }
 
   function forceWrite(el) {
@@ -58,6 +64,7 @@ function circularBuffer() {
       array[writeIdx % size] = el;
       writeIdx++;
       readIdx++;
+      elements++;
     }
   }
 

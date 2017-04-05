@@ -7,64 +7,35 @@ exports['default'] = circularBuffer;
 exports.bufferEmptyException = bufferEmptyException;
 exports.bufferFullException = bufferFullException;
 
-function circularBuffer() {
-  var size = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-
-  var array = new Array(size),
-      writeIdx = 0,
-      readIdx = 0,
-      elements = 0;
-
-  function full() {
-    var full = true;
-
-    for (var i = 0; i < size; i++) {
-      if (Boolean(array[i]) === false) full = false;
-    }
-
-    return full;
-  }
+function circularBuffer(maxSize) {
+  var buffer = [];
 
   function read() {
-    if (array.every(function (el) {
-      return Boolean(el) === false;
-    }) || !Boolean(array[readIdx % size]) || readIdx >= elements) {
+    if (buffer.length === 0) {
       throw bufferEmptyException();
     } else {
-      readIdx++;
-      var result = array[(readIdx - 1) % size];
-      array[(readIdx - 1) % size] = undefined;
-      return result;
+      return buffer.shift();
     }
   }
 
   function write(el) {
-    if (el && !full()) {
-      array[writeIdx % size] = el;
-      writeIdx++;
-      elements++;
-    } else if (full()) {
-      console.log(array);
+    if (Boolean(el) && buffer.length < maxSize) {
+      buffer.push(el);
+    } else if (buffer.length === maxSize) {
       throw bufferFullException();
     }
   }
 
   function clear() {
-    array.fill(undefined);
-    writeIdx = 0;
-    readIdx = 0;
-    elements = 0;
+    buffer = [];
   }
 
   function forceWrite(el) {
-    if (!full()) {
+    if (buffer.length !== maxSize) {
       write(el);
     } else {
-      //it's full, overwrite oldest
-      array[writeIdx % size] = el;
-      writeIdx++;
-      readIdx++;
-      elements++;
+      buffer.shift();
+      buffer.push(el);
     }
   }
 

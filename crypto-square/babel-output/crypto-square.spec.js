@@ -37,22 +37,22 @@ describe('Crypto', function () {
     expect(crypto.size()).toEqual(4);
   });
 
-  xit('plain text segments', function () {
+  it('plain text segments', function () {
     var crypto = new _cryptoSquare2['default']('Never vex thine heart with idle woes');
     expect(crypto.plaintextSegments()).toEqual(['neverv', 'exthin', 'eheart', 'withid', 'lewoes']);
   });
 
-  xit('plain text segments', function () {
+  it('plain text segments', function () {
     var crypto = new _cryptoSquare2['default']('ZOMG! ZOMBIES!!!');
     expect(crypto.plaintextSegments()).toEqual(['zomg', 'zomb', 'ies']);
   });
 
-  xit('cipher text', function () {
+  it('cipher text', function () {
     var crypto = new _cryptoSquare2['default']('Time is an illusion. Lunchtime doubly so.');
     expect(crypto.ciphertext()).toEqual('tasneyinicdsmiohooelntuillibsuuml');
   });
 
-  xit('cipher text', function () {
+  it('cipher text', function () {
     var crypto = new _cryptoSquare2['default']('We all know interspecies romance is weird.');
     expect(crypto.ciphertext()).toEqual('wneiaweoreneawssciliprerlneoidktcms');
   });

@@ -7,27 +7,28 @@ describe('Luhn',() => {
     expect(luhn.valid).toEqual(false);
   });
 
-  xit('A single zero is invalid', () => {
+  it('A single zero is invalid', () => {
     const luhn = new Luhn('0');
     expect(luhn.valid).toEqual(false);
   });
 
-  xit('valid Canadian SIN', () => {
+  it('valid Canadian SIN', () => {
     const luhn = new Luhn('046 454 286');
+
     expect(luhn.valid).toEqual(true);
   });
 
-  xit('invalid Canadian SIN', () => {
+  it('invalid Canadian SIN', () => {
     const luhn = new Luhn('046 454 287');
     expect(luhn.valid).toEqual(false);
   });
 
-  xit('invalid credit card', () => {
+  it('invalid credit card', () => {
     const luhn = new Luhn('8273 1232 7352 0569');
     expect(luhn.valid).toEqual(false);
   });
 
-  xit('valid strings with a non-digit added become invalid', () => {
+  it('valid strings with a non-digit added become invalid', () => {
     const luhn = new Luhn('046a 454 286');
     expect(luhn.valid).toEqual(false);
   });

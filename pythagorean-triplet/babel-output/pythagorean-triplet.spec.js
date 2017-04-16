@@ -16,11 +16,11 @@ describe('Triplet', function () {
     expect(new _pythagoreanTriplet2.default(3, 4, 5).product()).toBe(60);
   });
 
-  it('can recognize a pythagorean triplet', function () {
+  xit('can recognize a pythagorean triplet', function () {
     expect(new _pythagoreanTriplet2.default(3, 4, 5).isPythagorean()).toBe(true);
   });
 
-  it('can recognize a non pythagorean triplet', function () {
+  xit('can recognize a non pythagorean triplet', function () {
     expect(new _pythagoreanTriplet2.default(5, 6, 7).isPythagorean()).toBe(false);
   });
 

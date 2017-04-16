@@ -10,11 +10,11 @@ describe('Triplet', () => {
     expect(new Triplet(3, 4, 5).product()).toBe(60);
   });
 
-  it('can recognize a pythagorean triplet', () => {
+  xit('can recognize a pythagorean triplet', () => {
     expect(new Triplet(3, 4, 5).isPythagorean()).toBe(true);
   });
 
-  it('can recognize a non pythagorean triplet', () => {
+  xit('can recognize a non pythagorean triplet', () => {
     expect(new Triplet(5, 6, 7).isPythagorean()).toBe(false);
   });
 

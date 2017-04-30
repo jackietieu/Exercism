@@ -10,17 +10,17 @@ var Squares = function Squares(max) {
   _classCallCheck(this, Squares);
 
   this.range = Array.from(Array(max), function (_, i) {
-    return i;
+    return i + 1;
   });
-  this.squareOfSums = this.range.reduce(function (acc, val) {
-    return acc + val * val;
-  });
+  this.squareOfSums = Math.pow(this.range.reduce(function (acc, val) {
+    return acc + val;
+  }), 2);
   this.sumOfSquares = this.range.map(function (val) {
-    return val * val;
+    return Math.pow(val, 2);
   }).reduce(function (acc, val) {
     return acc + val;
   });
-  this.difference = this.sumOfSquares - this.squareOfSums;
+  this.difference = this.squareOfSums - this.sumOfSquares;
 };
 
 exports.default = Squares;

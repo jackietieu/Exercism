@@ -1,23 +1,36 @@
-export default {
-  WordProblem(question) {
-    const OPERATIONS = {
+class WordProblem {
+  constructor(question) {
+    this.numbers = question.match(/-[\d]+|\d+/g);
+    this.operations = question.match(/(plus|minus|divided|multiplied)+/g);
+    this.opTranslation = {
       'plus': '+',
       'minus': '-',
       'multiplied': '*',
       'divided': '/'
     }
+  }
 
-    let numbers = question.match(/(\d+|plus|minus|divided|multiplied)+/g),
-    operations = question.match(/(plus|minus|divided|multiplied)+/g);
-
-    if (!operations) {
-      throw new Error('Too advanced.');
+  answer() {
+    if (!this.operations) {
+      throw new ArgumentError();
     }
 
-    return {
-      answer() {
-        return numbers.reduce((acc, val, i) => eval(`${acc}${OPERATIONS[operations[i]]}${val}`));
-      }
-    }
+    let result = this.numbers[0];
+
+    this.numbers.slice(1).forEach((val, i) => {
+      result = String(eval(this.checkDoubleNegative(result+this.opTranslation[this.operations[i]]+val)));
+    })
+
+    return +result;
+  }
+
+  checkDoubleNegative(str){
+    return str.replace(/--/g, '+');
   }
 }
+
+function ArgumentError() {
+  return new Error('Too advanced.');
+}
+
+export { WordProblem, ArgumentError };

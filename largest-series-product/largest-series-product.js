@@ -1,6 +1,6 @@
 export default (input) => ({
   largestProduct: (length) => {
-    if (input.match(/[^\d]/) || length < 1) {
+    if (input.match(/[^\d]/) || length < 0) {
       throw new Error('Invalid input.')
     } else if (length > input.length) {
       throw new Error('Slice size is too big.')
@@ -10,36 +10,32 @@ export default (input) => ({
 
     let convertedInput = input.split('').map(numStr => +numStr),
         largest,
+        span = [],
         current = convertedInput[0],
-        nonZeroSpan = [],
-        currentSpanSize = 1;
+        currentSpanSize = 0;
 
-    convertedInput.slice(1).forEach((num, i) => {
-      if (num !== 0 && currentSpanSize !== length) {
-        nonZeroSpanProduct.push(num);
-      } else if (num !== 0) {
-        nonZeroSpanProduct /=
-      }
+    for (let i = 0; i < convertedInput.length; i++) {
+      let num = convertedInput[i];
 
       if (currentSpanSize < length) {
         currentSpanSize++;
+        span.push(num);
         current *= num;
 
         if (currentSpanSize === length) {
           largest = current;
         }
       } else {
-        if (convertedInput[i - length] === 0) {
+        span.shift();
+        span.push(num);
 
-        }
-        current /= convertedInput[i - length];
-        current *= num;
+        current = span.reduce((acc, num) => acc * num);
       }
 
       if (current > largest) {
         largest = current;
       }
-    })
+    }
 
     return largest;
   }

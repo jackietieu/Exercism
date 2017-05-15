@@ -11,11 +11,15 @@ export default (input) => ({
     let convertedInput = input.split('').map(numStr => +numStr),
         largest,
         span = [],
+        zeroes = 0,
         current = convertedInput[0],
         currentSpanSize = 0;
 
     for (let i = 0; i < convertedInput.length; i++) {
       let num = convertedInput[i];
+      if (num === 0) {
+        zeroes++;
+      }
 
       if (currentSpanSize < length) {
         currentSpanSize++;
@@ -26,8 +30,15 @@ export default (input) => ({
           largest = current;
         }
       } else {
-        span.shift();
         span.push(num);
+
+        if (span.shift() === 0) {
+          zeroes--;
+        }
+
+        if (zeroes) {
+          continue;
+        }
 
         current = span.reduce((acc, num) => acc * num);
       }

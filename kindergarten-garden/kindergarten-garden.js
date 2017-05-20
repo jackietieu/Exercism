@@ -5,18 +5,9 @@ const PLANTS = {
         'V': 'violets'
       },
       DEFAULT_NAMES = [
-        'alice',
-        'bob',
-        'charlie',
-        'david',
-        'eve',
-        'fred',
-        'ginny',
-        'harriet',
-        'ileana',
-        'joseph',
-        'kincaid',
-        'larry'
+        'alice', 'bob', 'charlie', 'david',
+        'eve', 'fred', 'ginny', 'harriet',
+        'ileana','joseph','kincaid', 'larry'
       ]
 
 export default class Garden {
